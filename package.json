@@ -2,7 +2,7 @@
   "name": "re.mind",
   "version": "0.1.0",
   "description": "A lightweight reminder application",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"

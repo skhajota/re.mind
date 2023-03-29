@@ -8,7 +8,7 @@ const createWindow = () => {
       height: 600
     })
   
-    win.loadFile('index.html')
+    win.loadFile('app/index.html')
 }
 
 app.whenReady().then(() => {
@@ -16,11 +16,13 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 })
 
 const path = require('path')
 
 require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+  electron: path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
 });
