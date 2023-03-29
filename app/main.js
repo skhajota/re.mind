@@ -1,9 +1,10 @@
 const { app, BrowserWindow } = require('electron')
 const electronReload = require('electron-reload')
 
+let win = null
 
 const createWindow = () => {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
       width: 800,
       height: 600,
       autoHideMenuBar: true,
@@ -11,6 +12,8 @@ const createWindow = () => {
   
     win.loadFile('app/index.html')
 }
+const gotTheLock = app.requestSingleInstanceLock()
+const path = require('path')
 
 app.whenReady().then(() => {
     createWindow()
@@ -22,8 +25,23 @@ app.on('window-all-closed', () => {
     }
 })
 
-const path = require('path')
-
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
 });
+
+
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
+    
+  // Create BrowserWindow, load the rest of the app, etc...
+  app.on('ready', () => {
+  })
+}
