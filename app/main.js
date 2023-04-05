@@ -1,5 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const electronReload = require('electron-reload')
+const gotTheLock = app.requestSingleInstanceLock()
+const path = require('path')
 
 let win = null
 
@@ -8,12 +10,11 @@ const createWindow = () => {
       width: 800,
       height: 600,
       autoHideMenuBar: true,
+      icon: __dirname + '/assets/icon.png'
     })
   
     win.loadFile('app/index.html')
 }
-const gotTheLock = app.requestSingleInstanceLock()
-const path = require('path')
 
 app.whenReady().then(() => {
     createWindow()
