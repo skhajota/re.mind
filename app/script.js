@@ -86,5 +86,6 @@ let words = [
       input.value = suggestion.innerText;
       //clear the suggestion
       clearSuggestion();
+      sendNotification();
     }
   });
