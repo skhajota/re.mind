@@ -82,21 +82,29 @@ const checkCalendar = () => {
   var fs = require('fs');
   var calendar = JSON.parse(fs.readFileSync(path.join(__dirname,'/db/calendar.json'), 'utf8'));
 
+  for(var i=0; i < calendar.events.length; i++){
+    // Get event
+    var event = calendar.events[i]
 
-  // Get times in seconds
-  let now = new Date().getTime()*0.001;
-  let then = new Date(calendar.events[0].date_time).getTime()*0.001;
-  // Get time zone offset in seconds
-  let offset =  (new Date().getTimezoneOffset()*(-60));
+    // Get times in seconds
+    let now = new Date().getTime()*0.001;
+    let then = new Date(event.date_time).getTime()*0.001;
+    // Get time zone offset in seconds
+    let offset =  (new Date().getTimezoneOffset()*(-60));
+    // Calc trigger
+    let trigger = then-(now+offset)
 
-  let trigger = then-(now+offset)
+    // Debug prints
+    console.log(now);
+    console.log(then);
+    console.log(trigger);
 
-  console.log(now);
-  console.log(then);
-  console.log(trigger);
-
-  if (trigger < 0){
-    sendNotification(calendar.events[0].message)
-    // TODO: remove event 
-  }
+    // If event time has passed, trigger notification
+    if (trigger < 0){
+      sendNotification(event.message)
+      // Delete event
+      calendar.events.splice(i, 1);
+      fs.writeFileSync(path.join(__dirname,'/db/calendar.json'), JSON.stringify(calendar))
+    }
+  }  
 };
