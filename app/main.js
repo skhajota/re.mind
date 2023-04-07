@@ -81,6 +81,7 @@ const checkCalendar = () => {
   // Parse calendar.json
   var fs = require('fs');
   var calendar = JSON.parse(fs.readFileSync(path.join(__dirname,'/db/calendar.json'), 'utf8'));
+  var old_calendar = JSON.parse(fs.readFileSync(path.join(__dirname,'/db/old.calendar.json'), 'utf8'));
 
   for(var i=0; i < calendar.events.length; i++){
     // Get event
@@ -102,6 +103,9 @@ const checkCalendar = () => {
     // If event time has passed, trigger notification
     if (trigger < 0){
       sendNotification(event.message)
+      // Add event to old calendar
+      old_calendar.events.push(event)
+      fs.writeFileSync(path.join(__dirname,'/db/old.calendar.json'), JSON.stringify(old_calendar))
       // Delete event
       calendar.events.splice(i, 1);
       fs.writeFileSync(path.join(__dirname,'/db/calendar.json'), JSON.stringify(calendar))
