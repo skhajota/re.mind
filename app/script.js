@@ -1,34 +1,30 @@
 let words = [
-    "Apple",
-    "Pencil",
-    "Pen",
-    "Chair",
-    "Helmet",
-    "Grapes",
-    "Tub",
-    "Trophy",
-    "Cookie",
-    "Donut",
-    "Shirt",
-    "Bat",
-    "Ash",
-    "Bell",
-    "Chat",
-    "Ball",
-    "Eye",
-    "Fish",
-    "Zip",
-    "Game",
-    "Juice",
-    "Orange",
-    "Fan",
-    "Ice",
+    "remind me Monday:",
+    "remind me Tuesday:",
+    "remind me Wednesday:",
+    "remind me Thursday:",
+    "remind me Friday:",
+    "remind me Saturday:",
+    "remind me Sunday:",
+    "remind me next Monday:",
+    "remind me next Tuesday:",
+    "remind me next Wednesday:",
+    "remind me next Thursday:",
+    "remind me next Friday:",
+    "remind me next Saturday:",
+    "remind me next Sunday:",
+    "remind me next week:",
+    "remind me in two weeks:",
+    "remind me next month:",
+    "remind me next quarter:",
+    "remind me on YYYY-MM-DD@hh:mm:"
   ];
   words.sort();
   let input = document.getElementById("input");
   let suggestion = document.getElementById("suggestion");
   //Enter key code
   const enterKey = 13;
+  const tabKey = 9;
   
   window.onload = () => {
     input.value = "";
@@ -81,11 +77,14 @@ let words = [
   //Complete predictive text on enter key
   input.addEventListener("keydown", (e) => {
     //When user presses enter and suggestion exists
-    if (e.keyCode == enterKey && suggestion.innerText != "") {
+    if (e.keyCode == tabKey && suggestion.innerText != "") {
+      console.log("Input string = sdfsdfsd")
       e.preventDefault();
       input.value = suggestion.innerText;
-      //clear the suggestion
       clearSuggestion();
-      sendNotification();
+    }
+
+    if (e.keyCode == enterKey){
+      input.value = ""
     }
   });
